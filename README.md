@@ -21,6 +21,9 @@ Get your service account keys from Firebase, and save them as `serviceAccountKey
 
      `var provider = new firebase.auth.GoogleAuthProvider();`
 3. Upon entering the Google credentials, use `getIDToken()` to get the ID token(the actual JWT token). Apparently the `accessToken` in the response, does not work with `verifyIdToken()`.
+
+ref: [SO answer](https://stackoverflow.com/a/39193057/6793666)
+
 4. Use the token obtained from above and send it to a custom endpoint for session login.
 
 ```js
@@ -31,13 +34,13 @@ axios.post('/session-login', { token: token }, { "Content-Type": "application/js
           });
 ```
 
-ref: [SO answer](https://stackoverflow.com/a/39193057/6793666)
+
 
 5. The nodeJS app uses the Firebase Admin SDK.
 6. The token from the request body is passed to `verifyIDToken()`
-7. Upon successful resolution of the promise, a session cookie is created and sent back
+7. Upon successful resolution of the promise, a session cookie is created and sent back.
 8. Since the front end does not have any state knowledge, clearing the cookies for logout does the job just fine.
-9. Also, revoking the token is done from Firebase Rules.
+9. Also, token is revoked from from Firebase Rules.
 
 
 
